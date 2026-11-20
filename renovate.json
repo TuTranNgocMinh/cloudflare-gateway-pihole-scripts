@@ -1,12 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    "config:js-app",
-    ":automergeBranch",
-    ":automergeMinor"
+    "github>mrrfv/renovate-config",
+    ":pinAllExceptPeerDependencies"
   ],
-  "github-actions": {
-    "fileMatch": ["^auto_update_github_action.yml$"]
-  }
+  "minimumReleaseAge": "8 days",
+  "separateMultipleMajor": true,
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "pinDigests": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true
+    },
+    {
+      "description": "dry-run.yml exercises the code on every renovate/** branch, so non-major updates can automerge",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ]
 }
